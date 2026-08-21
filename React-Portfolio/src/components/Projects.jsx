@@ -2,18 +2,28 @@ import { FaGithub } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import Rock from "../assets/Rock_Paper_Scissor.png";
 import Weather from "../assets/Weather.png"
+import todo from "../assets/todo.png"
 
 function Projects() {
 
     const projects = [
+        {
+            image: todo,
+            name: "Todo List",
+            description:
+                "A simple Todo List app built with React using `useContext` for state management. Users can add, edit, delete, and manage their tasks.",
+            technologies: ["Tailwind","React"],
+            githubLink: "https://github.com/meetbharda/todo-list",
+            liveLink: null,
+        },
         {
             image: Rock,
             name: "Rock Paper Scissor",
             description:
                 "A simple and interactive browser-based game where users can play Rock Paper Scissors against the computer with instant results and a clean, responsive interface.",
             technologies: ["HTML", "CSS", "JavaScript"],
-            githubLink: "",
-            liveLink: "",
+            githubLink: null,
+            liveLink: null,
         },
         {
             image: Weather,
@@ -21,8 +31,8 @@ function Projects() {
             description:
                 "A responsive weather application that uses a weather API to fetch and display real-time weather information for any city.",
             technologies: ["HTML", "CSS", "JavaScript"],
-            githubLink: "",
-            liveLink: "",
+            githubLink: null,
+            liveLink: null,
         },
     ];
 

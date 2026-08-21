@@ -1,10 +1,17 @@
-import { FaEnvelope, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import {
+    FaEnvelope,
+    FaGithub,
+    FaLinkedin,
+    FaInstagram,
+} from "react-icons/fa";
+
 import { FiSend, FiArrowUpRight } from "react-icons/fi";
 import { useState } from "react";
 
 function Contact() {
 
     const [submitted, setSubmitted] = useState(false);
+    const [errors, setErrors] = useState({});
 
     const contacts = [
         {
@@ -17,7 +24,7 @@ function Contact() {
         {
             icon: FaGithub,
             name: "GitHub",
-            value: "github.com/yourusername",
+            value: "github.com/meetbharda",
             link: "https://github.com/meetbharda",
             color: "#ffffff",
         },
@@ -37,6 +44,54 @@ function Contact() {
         },
     ];
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+
+        const name = formData.get("name").trim();
+        const email = formData.get("email").trim();
+        const message = formData.get("message").trim();
+
+        const newErrors = {};
+
+        // Name validation
+        if (!name) {
+            newErrors.name = "Please enter your name.";
+        } else if (name.length < 2) {
+            newErrors.name = "Name must be at least 2 characters.";
+        }
+
+        // Email validation
+        if (!email) {
+            newErrors.email = "Please enter your email.";
+        } else if (
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+        ) {
+            newErrors.email = "Please enter a valid email address.";
+        }
+
+        // Message validation
+        if (!message) {
+            newErrors.message = "Please enter your message.";
+        } else if (message.length < 10) {
+            newErrors.message =
+                "Message must be at least 10 characters.";
+        }
+
+        setErrors(newErrors);
+
+        // If there are errors, stop here
+        if (Object.keys(newErrors).length > 0) {
+            setSubmitted(false);
+            return;
+        }
+
+        // Successful validation
+        setSubmitted(true);
+        e.target.reset();
+    };
+
     return (
         <section
             id="contact"
@@ -51,6 +106,7 @@ function Contact() {
 
             {/* SECTION TITLE */}
             <div className="relative mb-12">
+
                 <h1 className="inline-block rounded-md border border-purple-500/30 bg-purple-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-wider text-purple-400">
                     Contact Me
                 </h1>
@@ -67,6 +123,7 @@ function Contact() {
                     Feel free to reach out. I'm always open to new ideas and
                     opportunities.
                 </p>
+
             </div>
 
 
@@ -83,7 +140,9 @@ function Contact() {
                     <div className="relative">
 
                         <div className="flex items-center justify-between">
+
                             <div>
+
                                 <p className="text-sm uppercase tracking-wider text-purple-400">
                                     Let's Connect
                                 </p>
@@ -91,11 +150,13 @@ function Contact() {
                                 <h3 className="mt-2 text-2xl font-semibold text-white">
                                     Find me online
                                 </h3>
+
                             </div>
 
                             <div className="flex h-10 w-10 items-center justify-center rounded-full border border-purple-500/20 bg-purple-500/10 text-purple-400">
                                 <FiArrowUpRight size={20} />
                             </div>
+
                         </div>
 
 
@@ -163,9 +224,11 @@ function Contact() {
                         <div className="mt-8 flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
 
                             <span className="relative flex h-3 w-3">
+
                                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60"></span>
 
                                 <span className="relative inline-flex h-3 w-3 rounded-full bg-green-400"></span>
+
                             </span>
 
                             <p className="text-sm text-gray-400">
@@ -175,6 +238,7 @@ function Contact() {
                         </div>
 
                     </div>
+
                 </div>
 
 
@@ -195,53 +259,87 @@ function Contact() {
                         </h3>
 
 
+                        {/* FORM */}
                         <form
                             className="mt-8 space-y-5"
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                setSubmitted(true);
-                            }}
+                            onSubmit={handleSubmit}
                         >
 
                             {/* NAME */}
                             <div>
+
                                 <label className="mb-2 block text-sm font-medium text-gray-300">
                                     Your Name
                                 </label>
 
                                 <input
                                     type="text"
+                                    name="name"
                                     placeholder="Enter your name"
-                                    className="w-full rounded-xl border border-white/10 bg-[#020817]/70 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-600 transition duration-300 focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/10"
+                                    className={`w-full rounded-xl border ${errors.name
+                                            ? "border-red-500/60"
+                                            : "border-white/10"
+                                        } bg-[#020817]/70 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-600 transition duration-300 focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/10`}
                                 />
+
+                                {errors.name && (
+                                    <p className="mt-2 text-sm text-red-400">
+                                        {errors.name}
+                                    </p>
+                                )}
+
                             </div>
 
 
                             {/* EMAIL */}
                             <div>
+
                                 <label className="mb-2 block text-sm font-medium text-gray-300">
                                     Your Email
                                 </label>
 
                                 <input
                                     type="email"
+                                    name="email"
                                     placeholder="Enter your email"
-                                    className="w-full rounded-xl border border-white/10 bg-[#020817]/70 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-600 transition duration-300 focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/10"
+                                    className={`w-full rounded-xl border ${errors.email
+                                            ? "border-red-500/60"
+                                            : "border-white/10"
+                                        } bg-[#020817]/70 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-600 transition duration-300 focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/10`}
                                 />
+
+                                {errors.email && (
+                                    <p className="mt-2 text-sm text-red-400">
+                                        {errors.email}
+                                    </p>
+                                )}
+
                             </div>
 
 
                             {/* MESSAGE */}
                             <div>
+
                                 <label className="mb-2 block text-sm font-medium text-gray-300">
                                     Your Message
                                 </label>
 
                                 <textarea
+                                    name="message"
                                     rows="5"
                                     placeholder="Tell me about your project..."
-                                    className="w-full resize-none rounded-xl border border-white/10 bg-[#020817]/70 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-600 transition duration-300 focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/10"
+                                    className={`w-full resize-none rounded-xl border ${errors.message
+                                            ? "border-red-500/60"
+                                            : "border-white/10"
+                                        } bg-[#020817]/70 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-600 transition duration-300 focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/10`}
                                 ></textarea>
+
+                                {errors.message && (
+                                    <p className="mt-2 text-sm text-red-400">
+                                        {errors.message}
+                                    </p>
+                                )}
+
                             </div>
 
 
@@ -256,8 +354,11 @@ function Contact() {
                                     size={17}
                                     className="transition duration-300 group-hover:translate-x-1"
                                 />
+
                             </button>
 
+
+                            {/* SUCCESS MESSAGE */}
                             {submitted && (
                                 <p className="mt-4 text-center text-sm font-medium text-green-400">
                                     ✅ Message sent successfully!
@@ -267,6 +368,7 @@ function Contact() {
                         </form>
 
                     </div>
+
                 </div>
 
             </div>
