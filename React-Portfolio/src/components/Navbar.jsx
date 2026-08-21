@@ -125,7 +125,7 @@ function Navbar() {
                     </a>
 
                     <a
-                        href="https://instagram.com/"
+                        href="https://instagram.com/meet_bharda_7"
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={closeMenu}
